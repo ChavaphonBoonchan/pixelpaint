@@ -139,3 +139,7 @@ footer p:hover strong {
         font-size: 12px;
     }
 }
+html, body {
+    overflow: hidden;
+    height: 100%;
+}
