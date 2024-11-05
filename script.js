@@ -2,8 +2,8 @@ const canvas = document.getElementById('pixelCanvas');
 const ctx = canvas.getContext('2d');
 let drawing = false;
 let erasing = false;
-let currentColor = '#000000'; // สีเริ่มต้นคือสีดำ
-let brushSize = 10; // ขนาดเริ่มต้นของแปรง
+let currentColor = '#000000';
+let brushSize = 10;
 let history = [];
 let redoStack = [];
 
@@ -12,7 +12,6 @@ function setColor() {
     currentColor = document.getElementById('colorPicker').value;
 }
 
-// ฟังก์ชันกำหนดขนาดแปรง
 function setBrushSize() {
     brushSize = document.getElementById('brushSize').value;
 }
@@ -44,7 +43,7 @@ function setEraser() {
 
 function saveHistory() {
     history.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
-    if (history.length > 10) history.shift(); // จำกัดประวัติ
+    if (history.length > 10) history.shift();
 }
 
 function undo() {
@@ -61,28 +60,43 @@ function redo() {
     }
 }
 
-canvas.addEventListener('mousedown', () => {
+function startDrawing(event) {
     saveHistory();
     drawing = true;
-});
-
-canvas.addEventListener('mouseup', () => {
-    drawing = false;
-});
-
-canvas.addEventListener('mousemove', draw);
-
-function draw(e) {
-    if (!drawing) return;
-
-    const rect = canvas.getBoundingClientRect();
-    const x = Math.floor((e.clientX - rect.left) / brushSize) * brushSize;
-    const y = Math.floor((e.clientY - rect.top) / brushSize) * brushSize;
-
-    ctx.fillStyle = erasing ? 'white' : currentColor;
-    ctx.fillRect(x, y, brushSize, brushSize); // วาดสี่เหลี่ยมแบบพิกเซล
+    draw(event); // วาดทันทีเมื่อเริ่มสัมผัส
 }
 
+function stopDrawing() {
+    drawing = false;
+}
+
+function draw(event) {
+    if (!drawing) return;
+
+    let rect = canvas.getBoundingClientRect();
+    let x, y;
+
+    if (event.type.includes('touch')) {
+        x = Math.floor((event.touches[0].clientX - rect.left) / brushSize) * brushSize;
+        y = Math.floor((event.touches[0].clientY - rect.top) / brushSize) * brushSize;
+    } else {
+        x = Math.floor((event.clientX - rect.left) / brushSize) * brushSize;
+        y = Math.floor((event.clientY - rect.top) / brushSize) * brushSize;
+    }
+
+    ctx.fillStyle = erasing ? 'white' : currentColor;
+    ctx.fillRect(x, y, brushSize, brushSize);
+}
+
+// Event Listener สำหรับคอมพิวเตอร์
+canvas.addEventListener('mousedown', startDrawing);
+canvas.addEventListener('mouseup', stopDrawing);
+canvas.addEventListener('mousemove', draw);
+
+// Event Listener สำหรับหน้าจอสัมผัส
+canvas.addEventListener('touchstart', startDrawing);
+canvas.addEventListener('touchend', stopDrawing);
+canvas.addEventListener('touchmove', draw);
 
 function saveImage() {
     const link = document.createElement('a');
@@ -96,11 +110,10 @@ function saveImage() {
     }
 }
 
-
 function clearCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     history = [];
     redoStack = [];
 }
 
-setCanvasSize(); // ตั้งค่าเริ่มต้น
+setCanvasSize();
