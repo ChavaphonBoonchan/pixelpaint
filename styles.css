@@ -1,0 +1,141 @@
+/* พื้นฐาน */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    height: 100vh;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 2em;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+/* กล่องเครื่องมือ */
+.toolbar {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* ปรับให้อยู่ในหลายแถวบนหน้าจอเล็ก */
+    justify-content:center;
+}
+
+.toolbar button, .toolbar input[type="color"], .toolbar input[type="range"], .toolbar select {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1 1 100px; /* ปรับขนาดให้อัตโนมัติบนหน้าจอเล็ก */
+}
+
+.toolbar button:hover, .toolbar select:hover {
+    background-color: #e0e0e0;
+}
+
+.toolbar button:active {
+    transform: scale(0.95);
+}
+
+.toolbar input[type="color"], .toolbar input[type="range"] {
+    cursor: pointer;
+    border: 1px solid #ddd;
+    flex: 1;
+}
+
+/* ปุ่มและการใช้งาน */
+button {
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+select {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/* ผ้าใบ */
+canvas {
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    cursor: crosshair;
+    transition: transform 0.2s ease;
+    width: 100%; /* ให้ canvas ขยายเต็มความกว้างหน้าจอบนอุปกรณ์เล็ก */
+    max-width: 500px; /* ขนาดสูงสุดสำหรับหน้าจอใหญ่ */
+}
+
+canvas:active {
+    transform: scale(1.01);
+}
+
+/* ส่วนท้าย */
+footer {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 14px;
+    width: 100%;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    position: fixed;
+    bottom: 0;
+}
+
+footer p {
+    margin: 0;
+}
+
+footer p strong {
+    color: #e74c3c;
+}
+
+footer p:hover strong {
+    color: #f39c12;
+    transition: color 0.3s ease;
+}
+
+/* การแสดงผลบนมือถือ */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5em;
+    }
+
+    .toolbar {
+        flex-direction:row;
+        gap: 4px;
+    }
+
+    .toolbar button, .toolbar input[type="color"], .toolbar input[type="range"], .toolbar select {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    footer {
+        font-size: 12px;
+    }
+}
